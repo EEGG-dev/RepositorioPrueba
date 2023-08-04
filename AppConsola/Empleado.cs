@@ -2,7 +2,7 @@ namespace AppConsola;
 
 public class Empleado
 {
-    public string Id { get; set; }
+    public string Id { get; private set; }
     public string Nombre { get; set;}
     public string Cargo { get; set;}
     public int Edad { get; set;}
@@ -18,4 +18,4 @@ public class Empleado
     }
 
 
-    }
+}
