@@ -1,4 +1,5 @@
 public static class CadenaConexion
 {
-    public const string VALOR = "Server=LAPTOP-CVFN424T\\SQLEXPRESS;Database=HR;Trusted_Connection=True;Encrypt=False";
+    public const string VALOR = "Data Source= LAPTOP-CVFN424T\\SQLEXPRESS;" +
+            "Initial Catalog= DataBaseFirst;Integrated Security=true";
 }
