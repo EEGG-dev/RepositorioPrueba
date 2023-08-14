@@ -1,20 +1,18 @@
 
-
 using System.Data.SqlClient;
 using AppConsola;
-
 public class RepositorioEmpleado
 {
     public void Agregar(Empleado empleado)
     {
-        string query = "insert into Empleados (Id, Nombre, Cargo, Edad, DepartamentoId) values (@id, @nombre, @cargo, @departamentoId, @edad)";
+        string query = "insert into Empleados (Id, Nombre, Cargo, Edad, DepartamentoId) values (@Id, @Nombre, @Cargo, @Edad, @DepartamentoId)";
         using SqlConnection conexion = new SqlConnection(CadenaConexion.VALOR);
         using SqlCommand comando = new SqlCommand(query, conexion);
-        comando.Parameters.AddWithValue("@id", empleado.Id);
-        comando.Parameters.AddWithValue("@nombre", empleado.Nombre);
-        comando.Parameters.AddWithValue("@cargo", empleado.Cargo);
-        comando.Parameters.AddWithValue("@departamentoId", empleado.DepartamentoId);
-        comando.Parameters.AddWithValue("@edad", empleado.Edad);
+        comando.Parameters.AddWithValue("@Id", empleado.Id);
+        comando.Parameters.AddWithValue("@Nombre", empleado.Nombre);
+        comando.Parameters.AddWithValue("@Cargo", empleado.Cargo);
+        comando.Parameters.AddWithValue("@Edad", empleado.Edad);
+        comando.Parameters.AddWithValue("@DepartamentoId", empleado.DepartamentoId);
         conexion.Open();
         comando.ExecuteNonQuery();
         conexion.Close();
@@ -30,11 +28,11 @@ public class RepositorioEmpleado
         SqlDataReader lector = comando.ExecuteReader();
         while(lector.Read())
         {
-            string Id = lector.GetInt32(0).ToString();
+            string Id = lector.GetString(0);
             string Nombre = lector.GetString(1);
             string Cargo = lector.GetString(2);
             int Edad = lector.GetInt32(3);
-            string DepartamentoId = lector.GetInt32(4).ToString();
+            int DepartamentoId = lector.GetInt32(4);
             Empleado empleado = new Empleado(Id, Nombre, Cargo, Edad, DepartamentoId);
             empleados.Add(empleado);
         }        
@@ -43,7 +41,7 @@ public class RepositorioEmpleado
         return empleados;
     }
 
-    public void Editar(Empleado empleado, string Id)
+    public void Editar(Empleado empleado, string Id, int nuevoDepartamentoId)
     {
         string query = "update Empleados set Nombre=@nombre, Cargo=@cargo, Edad=@edad, DepartamentoId=@departamentoid where id = @id";
         using SqlConnection conexion = new SqlConnection(CadenaConexion.VALOR);
@@ -51,7 +49,7 @@ public class RepositorioEmpleado
         comando.Parameters.AddWithValue("@Nombre", empleado.Nombre);
         comando.Parameters.AddWithValue("@Cargo", empleado.Cargo);
         comando.Parameters.AddWithValue("@Edad", empleado.Edad);
-        comando.Parameters.AddWithValue("@DepartamentoId",empleado.DepartamentoId );
+        comando.Parameters.AddWithValue("@DepartamentoId",nuevoDepartamentoId );
         comando.Parameters.AddWithValue("@id", Id);
 
         conexion.Open();

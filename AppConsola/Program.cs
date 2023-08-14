@@ -35,10 +35,16 @@ while (true)
             LogicaDepartamento.MostrarDepartamentos(repositorioDepartamento);
             break;
         case "5":
-            LogicaEmpleados.RegistrarEmpleado(repositorioEmpleado);
+            LogicaEmpleados.RegistrarEmpleado(repositorioEmpleado, repositorioDepartamento);
             break;
         case "6":
             LogicaEmpleados.EliminarEmpleado(repositorioEmpleado);
+            break;
+        case "7":
+            LogicaEmpleados.EditarEmpleado(repositorioEmpleado, repositorioDepartamento);
+            break;
+        case "8":
+            LogicaEmpleados.MostrarEmpleados(repositorioEmpleado);
             break;
         case "9":
             System.Console.WriteLine("Hasta Luego!");

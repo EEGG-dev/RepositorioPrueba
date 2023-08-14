@@ -4,15 +4,17 @@ public static class LogicaDepartamento
 {
     public static void RegistrarDepartamento(RepositorioDepartamento repositorioDepartamento)
     {
-        Console.WriteLine("digite el departamento");
+        Console.WriteLine("---- Registro de Departamentos ----");
+
+        Console.WriteLine("Ingrese el nombre del departamento: ");
         string nombre = Console.ReadLine();
         repositorioDepartamento.agregar(nombre);
-        Console.ReadKey();
+        Console.WriteLine("Departamento guardado exitosamente...");
     }
 
     public static void MostrarDepartamentos(RepositorioDepartamento repositorioDepartamento)
     {
-        System.Console.WriteLine("----LISTA DE DEPARTAMENTOS----");
+        Console.WriteLine("---- Lista de Departamentos ----");
         List<Departamento> departamentos = repositorioDepartamento.Consultar();
         foreach (var departamento in departamentos)
         {
