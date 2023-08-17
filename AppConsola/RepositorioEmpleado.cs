@@ -43,7 +43,7 @@ public class RepositorioEmpleado
 
     public void Editar(Empleado empleado, string Id, int nuevoDepartamentoId)
     {
-        string query = "update Empleados set Nombre=@nombre, Cargo=@cargo, Edad=@edad, DepartamentoId=@departamentoid where id = @id";
+        string query = "update Empleados set Id = @Id, Nombre=@nombre, Cargo=@cargo, Edad=@edad, DepartamentoId=@departamentoid where id = @id";
         using SqlConnection conexion = new SqlConnection(CadenaConexion.VALOR);
         using SqlCommand comando = new SqlCommand(query, conexion);
         comando.Parameters.AddWithValue("@Nombre", empleado.Nombre);
@@ -55,10 +55,9 @@ public class RepositorioEmpleado
         conexion.Open();
         comando.ExecuteNonQuery();
         conexion.Close();
-
     }
 
-    public void Delete(string Id)
+    public void Eliminar(string Id)
     {
         string query = "delete from Empleados where id = @id";
         SqlConnection conexion = new SqlConnection(CadenaConexion.VALOR);

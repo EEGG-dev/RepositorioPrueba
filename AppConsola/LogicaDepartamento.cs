@@ -8,8 +8,17 @@ public static class LogicaDepartamento
 
         Console.WriteLine("Ingrese el nombre del departamento: ");
         string nombre = Console.ReadLine();
-        repositorioDepartamento.agregar(nombre);
-        Console.WriteLine("Departamento guardado exitosamente...");
+
+        Departamento departamento = repositorioDepartamento.Consultar().Find(d => d.Nombre.ToLower() == nombre.ToLower());
+        if (departamento == null)
+        {
+            repositorioDepartamento.agregar(nombre);
+            Console.WriteLine("Departamento guardado exitosamente...");
+        }
+        else
+        {
+            Console.WriteLine("Actualmente existe un departamento con el mismo nombre.");
+        }
     }
 
     public static void MostrarDepartamentos(RepositorioDepartamento repositorioDepartamento)

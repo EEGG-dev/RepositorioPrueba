@@ -1,76 +1,77 @@
 using AppConsola;
 
-public static class LogicaEmpleados
+public static class LogicaEmpleado
 {
-    public static void RegistrarEmpleado(RepositorioEmpleado repositorioEmpleado, RepositorioDepartamento repositorioDepartamento)
+    public static void RegistrarEmpleados(RepositorioEmpleado repositorioEmpleado, RepositorioDepartamento repositorioDepartamento)
     {
-        Console.WriteLine("----Registro de Empleado----");
+        Console.WriteLine("---- Registro Empleado ----");
 
         Console.Write("Ingrese el ID del empleado: ");
         string id = Console.ReadLine();
 
-        Console.Write("Ingrese el nombre del empleado: ");
-        string nombre = Console.ReadLine();
-
-        Console.Write("Ingrese el cargo del empleado: ");
-        string cargo = Console.ReadLine();
-
-        Console.Write("Ingrese la edad del empleado: ");
-        int edad = int.Parse(Console.ReadLine());
-
-        Console.Write("Departamentos disponibles: ");
-        LogicaDepartamento.MostrarDepartamentos(repositorioDepartamento);
-
-        Console.Write("Ingrese el ID del departamento al que pertenece el empleado: ");
-        string depIdText = Console.ReadLine();
-
-        int depId;
-        if (!string.IsNullOrWhiteSpace(depIdText) && int.TryParse(depIdText, out depId))
+        Empleado empleado = repositorioEmpleado.Consultar().Find(e => e.Id == id);
+        if (empleado == null)
         {
-            Departamento departamento = repositorioDepartamento.Consultar().Find(d => d.Id == depId);
-            if(departamento != null)      
+            Console.Write("Ingrese el nombre del empleado: ");
+            string nombre = Console.ReadLine();
+
+            Console.Write("Ingrese el cargo del empleado: ");
+            string cargo = Console.ReadLine();
+
+            Console.Write("Ingrese la edad del empleado: ");
+            int edad = int.Parse(Console.ReadLine());
+
+            Console.Write("Departamentos disponibles: ");
+            LogicaDepartamento.MostrarDepartamentos(repositorioDepartamento);
+
+            Console.Write("Ingrese el ID del departamento al que pertenece: ");
+            string depIdText = Console.ReadLine();
+
+            int depId;
+            if (!string.IsNullOrWhiteSpace(depIdText) && int.TryParse(depIdText, out depId))
             {
-                Empleado empleado = new Empleado(id, nombre, cargo, edad, depId);
-                repositorioEmpleado.Agregar(empleado);
-                System.Console.WriteLine("Empleado guardado exitosamente...");
-            }
-            else
+                Departamento departamentoSeleccionado = repositorioDepartamento.Consultar().Find(d => d.Id == depId);
+                if (departamentoSeleccionado != null)
+                {
+                    Empleado empleadoRegistrado = new Empleado(id, nombre, cargo, edad, depId);
+                    repositorioEmpleado.Agregar(empleadoRegistrado);
+
+                    Console.WriteLine("Empleado registrado exitosamente...");
+                }
+                else
+                {
+                    Console.WriteLine("El ID del departamento especificado no existe.");
+                }
+            }else
             {
                 Console.WriteLine("El ID del departamento especificado no es valido.");
             }
         }
+        else
+        {
+            Console.WriteLine("Ya existe un empleado con el ID especificado.");
+        }
     }
 
-    public static void MostrarEmpleados(RepositorioEmpleado repositorioEmpleado)
+    public static void MostrarEmpleado(RepositorioEmpleado repositorioEmpleado)
     {
-        Console.WriteLine("---- Lista de empleados ----");
+        Console.WriteLine("---- Lista Empleados ----");
         List<Empleado> empleados = repositorioEmpleado.Consultar();
 
-         foreach (Empleado empleado in empleados)
+        foreach (Empleado empleado in empleados)
         {
             Console.WriteLine($"ID: {empleado.Id} | Nombre: {empleado.Nombre} | Cargo: {empleado.Cargo} | Edad: {empleado.Edad} | Departamento ID: {empleado.DepartamentoId}");
         }
     }
 
-    public static void EliminarEmpleado(RepositorioEmpleado repositorioEmpleado)
-    {
-        System.Console.WriteLine("----Eliminacion de Empleado----");
-        System.Console.WriteLine("Ingrese el Id del empleado: ");
-        string Id = Console.ReadLine();
-
-        repositorioEmpleado.Delete(Id);
-        System.Console.WriteLine("Empleado eliminado exitosamente...");
-        Console.ReadKey();
-    }
-
     public static void EditarEmpleado(RepositorioEmpleado repositorioEmpleado, RepositorioDepartamento repositorioDepartamento)
     {
-        Console.WriteLine("---- Edicion de Empleados ----");
+        Console.WriteLine("---- Editar Empleado ----");
 
-        Console.Write("Ingrese el ID del empleado que desea editar: ");
+        Console.WriteLine("Ingrese el ID del empleado que desea editar: ");
         string id = Console.ReadLine();
 
-        Empleado empleado = repositorioEmpleado.Consultar().Find(d => d.Id == id);
+        Empleado empleado = repositorioEmpleado.Consultar().Find(e => e.Id == id);
         if (empleado != null)
         {
             Console.Write("Ingrese el nombre del empleado: ");
@@ -82,35 +83,53 @@ public static class LogicaEmpleados
             Console.Write("Ingrese la edad del empleado: ");
             int edad = int.Parse(Console.ReadLine());
 
-            Console.WriteLine("Departamentos disponibles: ");
+            Console.WriteLine("Departamentos Disponibles: ");
             LogicaDepartamento.MostrarDepartamentos(repositorioDepartamento);
 
-            Console.Write("Ingrese el ID del departamento al que pertenece el empleado (o presione ENTER para mantener el actual): ");
+            Console.WriteLine("Ingrese el ID del departamento al que pertenece el empleado (o presione ENTER para mantener el actual): ");
             string depIdText = Console.ReadLine();
 
             int depId;
-            if(!string.IsNullOrWhiteSpace(depIdText) && int.TryParse(depIdText,out depId))
+            if (!string.IsNullOrWhiteSpace(depIdText) && int.TryParse(depIdText, out depId))
             {
-                Departamento departamento = repositorioDepartamento.Consultar().Find(d => d.Id == depId);
-                if (departamento != null)
+                Departamento departamentoSeleccionado = repositorioDepartamento.Consultar().Find(d => d.Id == depId);
+                if (departamentoSeleccionado != null)
                 {
                     Empleado empleado1 = new Empleado(id, nombre, cargo, edad, depId);
                     repositorioEmpleado.Editar(empleado1, id, depId);
-                    Console.WriteLine("Empleado guardado exitosamente...");
+                    Console.WriteLine("Empleado editado exitosamente...");
                 }
                 else
                 {
-                    Console.WriteLine("El ID de departamento especificado no es valido.");
+                    Console.WriteLine("El ID del departamento especificado no es valido.");
                 }
             }
             else
             {
-                Console.WriteLine("Empleado guardado con el departamento actual");
+                Console.WriteLine("Empleado guardado con el departamento actual.");
+                List<Empleado> empleados = repositorioEmpleado.Consultar();
+                Empleado empleadoActual = empleados.Find(e => e.Id == id);
+                if (empleadoActual != null)
+                {
+                    Empleado empleado2 = new Empleado(id, nombre, cargo, edad, empleadoActual.DepartamentoId);
+                    repositorioEmpleado.Editar(empleado2, id, empleadoActual.DepartamentoId);
+                    Console.WriteLine("Empleado guardado exitosamente...");
+                }
             }
         }
         else
         {
             Console.WriteLine("No se encontro un empleado con el ID especificado.");
         }
+    }
+
+    public static void EliminarEmpleado(RepositorioEmpleado repositorioEmpleado)
+    {
+        Console.WriteLine("---- Eliminacion Empleados ----");
+        Console.WriteLine("Ingrese el ID del empleado que desea eliminar: ");
+        string id = Console.ReadLine();
+
+        repositorioEmpleado.Eliminar(id);
+        Console.WriteLine("Empleado eliminado exitosamente...");
     }
 }
