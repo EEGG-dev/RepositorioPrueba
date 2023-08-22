@@ -10,15 +10,15 @@ while (true)
     Console.WriteLine("1. Registrar Departamento");
     Console.WriteLine("2. Eliminar Departamento");
     Console.WriteLine("3. Editar Departamento");
-    Console.WriteLine("4. Mostrar lista de Departamentos");
+    Console.WriteLine("4. Mostrar Departamentos");
     Console.WriteLine("5. Registrar Empleado");
     Console.WriteLine("6. Eliminar Empleado");
     Console.WriteLine("7. Editar Empleado");
-    Console.WriteLine("8. Mostrar lista de Empleados");
+    Console.WriteLine("8. Mostrar Empleados");
     Console.WriteLine("9. Salir");
     Console.WriteLine("-------------");
 
-    System.Console.WriteLine("Seleccione una opcion: ");
+    Console.WriteLine("Seleccione una opcion: ");
     string opcion = Console.ReadLine();
     switch (opcion)
     {
@@ -53,5 +53,5 @@ while (true)
             System.Console.WriteLine("Opcion invalida. Intente nuevamente.");
             break;
     }
-    System.Console.WriteLine();
+    Console.WriteLine();
 }

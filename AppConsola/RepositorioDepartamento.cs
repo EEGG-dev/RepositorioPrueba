@@ -40,7 +40,7 @@ public class RepositorioDepartamento
         using SqlConnection conexion = new SqlConnection(CadenaConexion.VALOR);
         using SqlCommand comando = new SqlCommand(query, conexion);
         comando.Parameters.AddWithValue("@nombre", departamento.Nombre);
-        comando.Parameters.AddWithValue("@id", departamento.Id);
+        comando.Parameters.AddWithValue("@id", Id);
 
         conexion.Open();
         comando.ExecuteNonQuery();

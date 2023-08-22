@@ -27,7 +27,7 @@ public static class LogicaDepartamento
         List<Departamento> departamentos = repositorioDepartamento.Consultar();
         foreach (var departamento in departamentos)
         {
-            Console.WriteLine($"Id: {departamento.Id}, Nombre: {departamento.Nombre}");
+            Console.WriteLine($"Id: {departamento.Id} | Nombre: {departamento.Nombre}");
         }
     }
 
@@ -60,11 +60,18 @@ public static class LogicaDepartamento
 
     public static void EliminarDepartamento(RepositorioDepartamento repositorioDepartamento)
     {
-        System.Console.WriteLine("----ELIMINACION DE DEPARTAMENTO----");
-        System.Console.WriteLine("Ingrese el ID del departamento que desea eliminar: ");
-        int id = int.Parse(Console.ReadLine());
-
-        repositorioDepartamento.Eliminar(id);
-        System.Console.WriteLine("Departamento eliminado exitosamente");
+        Console.WriteLine("----Eliminación Departamentos----");
+        int id = Utilidades.ObtenerEntero("Ingrese el ID del departamento que desea eliminar: ");
+        
+        Departamento departamento = repositorioDepartamento.Consultar().Find(d => d.Id == id);
+        if (departamento != null)
+        {
+            repositorioDepartamento.Eliminar(id);
+            Console.WriteLine("Departamento eliminado exitosamente...");
+        }
+        else
+        {
+            Console.WriteLine("El departamento no existe.");
+        }
     }
 }
